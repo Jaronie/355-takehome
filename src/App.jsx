@@ -1,4 +1,8 @@
+import JobList from './components/List';
+import SummaryBar from './components/SummaryBar';
+
 import { applications } from './applications';
+import { byNewest } from './statuses';
 
 /**
  * The starting point. Right now it dumps the raw data on the page so you can
@@ -10,6 +14,8 @@ import { applications } from './applications';
  * empty.
  */
 export default function App() {
+
+	const sortedList = [...applications].sort(byNewest);
 	return (
 		<>
 			<header className="site-header">
@@ -19,8 +25,11 @@ export default function App() {
 			</header>
 
 			<main className="container">
-				<p>{applications.length} applications loaded.</p>
-				<pre>{JSON.stringify(applications[0], null, 2)}</pre>
+				<SummaryBar applications={sortedList} />
+				<div className="page-head">
+					<h2>Applications</h2>
+				</div>
+				<JobList applications={sortedList} />
 			</main>
 		</>
 	);
