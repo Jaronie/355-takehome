@@ -1,4 +1,4 @@
-import { STATUS_LABELS } from '.../statuses';
+import { STATUS_LABELS } from '../statuses';
 
 /**
  * Fetching the status data from statuses.js
