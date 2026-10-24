@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { useState } from 'react';
 import JobList from './components/List';
+import FilterBar from './components/FilterBar';
 import SummaryBar from './components/SummaryBar';
 import { byNewest } from './statuses';
 
@@ -58,12 +59,27 @@ export default function App() {
 			<main className="container">
 				{loading && <p className="loading">Loading applications…</p>}
 				{error && <p className="error">{error}</p>}
+{!loading && !error && (
+	<>
+		<SummaryBar applications={applications} />
 
-				<SummaryBar applications={applications} />
-				<div className="page-head">
-					<h2>Applications</h2>
-				</div>
-				<JobList applications={visible} />
+						<div className="page-head">
+							<h2>Applications</h2>
+						</div>
+
+						<FilterBar
+							status={status}
+							query={query}
+							onStatusChange={setStatus}
+							onQueryChange={setQuery}
+						/>
+
+						<JobList
+							applications={visible}
+							emptyMsg="No applications match these filters."
+						/>
+					</>
+				)}
 			</main>
 		</>
 	);
