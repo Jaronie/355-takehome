@@ -11,7 +11,7 @@ export default function App() {
 	const [status, setStatus] = useState('all');
 	const [query, setQuery] = useState('');
 
-		useEffect(() => {
+	useEffect(() => {
 
 		const controller = new AbortController();
 
@@ -33,9 +33,9 @@ export default function App() {
 			
 		return () => controller.abort();
 
-		}, []);
+	}, []);
 
-			const needle = query.trim().toLowerCase();
+	const needle = query.trim().toLowerCase();
 	const visible = applications
 		.filter((application) => status === 'all' || application.status === status)
 		.filter(
@@ -63,7 +63,7 @@ export default function App() {
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
-				<JobList applications={applications} />
+				<JobList applications={visible} />
 			</main>
 		</>
 	);

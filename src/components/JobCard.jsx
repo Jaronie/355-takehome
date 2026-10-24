@@ -1,4 +1,4 @@
-import Status from './StatusLabel';
+import StatusLabel from './StatusLabel';
 import { formatDate } from '../statuses';
 
 /**
@@ -26,7 +26,7 @@ export default function JobCard( { application }) {
                 </div>
                 {notes && <p className="note">{notes}</p>}
             </div>
-            <StatusBadge status={status} />
+            <StatusLabel status={status} />
         </li>
     );
 }

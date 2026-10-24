@@ -31,3 +31,11 @@ export function formatDate(iso) {
 export function byNewest(a, b) {
 	return b.appliedOn.localeCompare(a.appliedOn);
 }
+
+export function countByStatus(applications) {
+	const counts = Object.fromEntries(STATUSES.map((s) => [s, 0]));
+	for (const application of applications) {
+		if (counts[application.status] !== undefined) counts[application.status] += 1;
+	}
+	return counts;
+}
