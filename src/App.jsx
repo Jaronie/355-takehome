@@ -17,6 +17,33 @@ import { byNewest } from './statuses';
  */
 export default function App() {
 
+		useEffect(() => {
+		// React runs effects twice in development to surface exactly this kind of
+		// bug. Without the controller, two requests race and the slower one wins.
+		const controller = new AbortController();
+
+		fetch('/applications.json', { signal: controller.signal })
+			.then((response) => {
+				// fetch only rejects on a network failure — a 404 still resolves,
+				// so the status has to be checked by hand.
+				if (!response.ok) throw new Error(`Could not load applications (${response.status})`);
+				return response.json();
+			})
+			.then((data) => {
+				setApplications(data);
+				setLoading(false);
+			})
+			.catch((problem) => {
+				if (problem.name === 'AbortError') return;
+				setError(problem.message);
+				setLoading(false);
+			});
+			
+		return () => controller.abort();
+
+		}, []);
+
+
 	const sortedList = [...applications].sort(byNewest);
 	return (
 		<>
