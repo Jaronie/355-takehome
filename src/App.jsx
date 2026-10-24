@@ -2,11 +2,14 @@ import { useEffect } from 'react';
 import { useState } from 'react';
 import JobList from './components/List';
 import SummaryBar from './components/SummaryBar';
-
-import { applications } from './public/applications';
 import { byNewest } from './statuses';
 
 export default function App() {
+	const [applications, setApplications] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
+	const [status, setStatus] = useState('all');
+	const [query, setQuery] = useState('');
 
 		useEffect(() => {
 
@@ -32,8 +35,18 @@ export default function App() {
 
 		}, []);
 
+			const needle = query.trim().toLowerCase();
+	const visible = applications
+		.filter((application) => status === 'all' || application.status === status)
+		.filter(
+			(application) =>
+				!needle ||
+				application.company.toLowerCase().includes(needle) ||
+				application.role.toLowerCase().includes(needle)
+		)
+		.sort(byNewest);
 
-	const sortedList = [...applications].sort(byNewest);
+	
 	return (
 		<>
 			<header className="site-header">
@@ -46,11 +59,11 @@ export default function App() {
 				{loading && <p className="loading">Loading applications…</p>}
 				{error && <p className="error">{error}</p>}
 
-				<SummaryBar applications={sortedList} />
+				<SummaryBar applications={applications} />
 				<div className="page-head">
 					<h2>Applications</h2>
 				</div>
-				<JobList applications={sortedList} />
+				<JobList applications={applications} />
 			</main>
 		</>
 	);
