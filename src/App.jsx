@@ -43,6 +43,9 @@ export default function App() {
 			</header>
 
 			<main className="container">
+				{loading && <p className="loading">Loading applications…</p>}
+				{error && <p className="error">{error}</p>}
+
 				<SummaryBar applications={sortedList} />
 				<div className="page-head">
 					<h2>Applications</h2>
