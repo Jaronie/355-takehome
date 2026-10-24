@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useState } from 'react';
 import JobList from './components/List';
 import SummaryBar from './components/SummaryBar';
 
